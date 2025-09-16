@@ -90,6 +90,11 @@ public class PlayerController : MonoBehaviour
         MoveCheck();
         // 玩家移动总控
         Move();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TurnManager.Instance.PlayerMoved();
+        }
     }
 
     #region < 计时器 >

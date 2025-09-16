@@ -158,7 +158,7 @@ MonoBehaviour:
   webPrefab: {fileID: 291732127554852532, guid: 422bfba4e7b5d6e459aea186593e507f, type: 3}
   webParent: {fileID: 0}
   normalSprite: {fileID: 21300000, guid: 177212650258ffc48b7b872cd859f7bb, type: 3}
-  corpseSprite: {fileID: 21300000, guid: bf013b52f227ab04ea6a1b8b0617e165, type: 3}
+  corpseSprite: {fileID: 21300000, guid: 82876e5c7dd52124fade2f879a6e0942, type: 3}
   collisionCheckRadius: 0.15
   playerTransform: {fileID: 0}
   spriteRenderer: {fileID: 4396110196216711475}

@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 public class RabbitAI : MonoBehaviour, ITurnActor
 {
     #region < 字段 >
-    [Header("权重（随机决策：Idle / Move1(8向) / Move2(4向 两格)）")]
-    [Tooltip("待机权重（越大越倾向于待机）")]
+    [Header("权重")]
+    [Tooltip("待机权重")]
     [SerializeField] private int idleWeight = 60;
     [Tooltip("1格移动（8向）权重")]
     [SerializeField] private int move1Weight = 25;
@@ -17,9 +17,9 @@ public class RabbitAI : MonoBehaviour, ITurnActor
     [Header("Tilemap 支持")]
     [Tooltip("是否使用 Tilemap 网格坐标")]
     [SerializeField] private bool useTilemapCoords = true;
-    [Tooltip("地面 Tilemap（若使用 Tilemap，请赋值）")]
+    [Tooltip("地面 Tilemap")]
     [SerializeField] private Tilemap groundTilemap;
-    [Tooltip("障碍 Tilemap（视线 / 可行性判定可选）")]
+    [Tooltip("障碍 Tilemap")]
     [SerializeField] private Tilemap obstacleTilemap;
 
     [Header("检测 / 层设置")]
@@ -43,10 +43,13 @@ public class RabbitAI : MonoBehaviour, ITurnActor
     [SerializeField] private Sprite normalSprite;
     [Tooltip("死亡后使用的尸体 Sprite")]
     [SerializeField] private Sprite corpseSprite;
-    [Tooltip("自身 SpriteRenderer（若为空将在 Start() 自动查找）")]
+    [Tooltip("自身 SpriteRenderer")]
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [Tooltip("自身 AnimalVisibility（若有）")]
+    [Tooltip("自身 AnimalVisibility")]
     [SerializeField] private AnimalVisibility animalVisibility;
+
+    [Header("引用")]
+    [SerializeField] private Transform playerTransform;
 
     // 运行时状态
     private bool isDead = false;
@@ -87,6 +90,19 @@ public class RabbitAI : MonoBehaviour, ITurnActor
             TurnManager.Instance.Unregister(this);
     }
 
+    //private bool b = true;
+
+    //private void Update()
+    //{
+    //    if (Vector2.Distance(transform.position, playerTransform.position) > 30 && b)
+    //    {
+    //        TurnManager.Instance.Unregister(this);
+    //    }
+    //    else if (Vector2.Distance(transform.position, playerTransform.position) <= 30 && !b)
+    //    {
+    //        TurnManager.Instance.Register(this);
+    //    }
+    //}
     #region < 回合逻辑 >
     /// <summary>
     /// 被 TurnManager 调用：执行本回合逻辑
@@ -248,7 +264,6 @@ public class RabbitAI : MonoBehaviour, ITurnActor
     #region < 死亡处理 >
     /// <summary>
     /// 被击杀：切换尸体 sprite、注销 TurnManager、禁用可见性、禁用碰撞并停用行为脚本（保持对象用于尸体展示）
-    /// 与 SpiderAI 的行为保持一致
     /// </summary>
     public void OnKilled()
     {
@@ -264,11 +279,9 @@ public class RabbitAI : MonoBehaviour, ITurnActor
         if (TurnManager.Instance != null)
             TurnManager.Instance.Unregister(this);
 
-        // 若有 AnimalVisibility，尝试禁用其显示控制（保持一致风格）
+        // 若有 AnimalVisibility，尝试禁用其显示控制
         if (animalVisibility != null)
         {
-            // 兼容性：部分实现可能使用不同字段名，请确保 AnimalVisibility 中存在 useAnimalVisibility 字段或自行替换为合适调用
-            // 为保险起见，我们尝试以反射设置（若不存在则忽略）
             try
             {
                 var field = animalVisibility.GetType().GetField("useAnimalVisibility",

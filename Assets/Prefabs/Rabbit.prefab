@@ -114,9 +114,10 @@ MonoBehaviour:
   stepPause: 0.12
   collisionCheckRadius: 0.15
   normalSprite: {fileID: 21300000, guid: b3ba1cf2b0de24043a531ff4cd4cde38, type: 3}
-  corpseSprite: {fileID: 21300000, guid: bf013b52f227ab04ea6a1b8b0617e165, type: 3}
+  corpseSprite: {fileID: 21300000, guid: 82876e5c7dd52124fade2f879a6e0942, type: 3}
   spriteRenderer: {fileID: 8501782729237486106}
   animalVisibility: {fileID: 2811898132061809321}
+  playerTransform: {fileID: 0}
 --- !u!114 &2811898132061809321
 MonoBehaviour:
   m_ObjectHideFlags: 0

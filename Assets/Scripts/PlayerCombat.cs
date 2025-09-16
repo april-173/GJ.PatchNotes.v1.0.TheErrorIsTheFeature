@@ -28,7 +28,7 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("小刀攻击指示器的本地缩放")]
     [SerializeField] private Vector2 knifeIndicatorScale = Vector2.one;
     [Tooltip("小刀攻击每回合次数")]
-    [SerializeField] private int knifeAttackNumber;
+    public int knifeAttackNumber;
 
     [Header("猎枪（Shotgun）设置")]
     [Tooltip("猎枪攻击指示器")]
@@ -48,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("遇到障碍时是否停止绘制攻击指示器")]
     [SerializeField] private bool shotgunStopAtObstacle = true;
     [Tooltip("子弹数量")]
-    [SerializeField] private int shotgunBulletsCount;
+    public int shotgunBulletsCount;
 
     [Header("检测设置")]
     [Tooltip("是否使用 Tilemap 网格坐标")]
@@ -63,8 +63,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float detectionRadius = 0.35f;
 
     [Header("可视化")]
-    [Tooltip("是否始终显示指示器")]
-    [SerializeField] private bool debugAlwaysShowIndicator = false;
     [Tooltip("是否在 Scene 中绘制调试线条")]
     [SerializeField] private bool debugDrawGizmos = true;
 
@@ -82,6 +80,9 @@ public class PlayerCombat : MonoBehaviour
 
     private int currentShotgunBulletsCount;
     private int currentKnifeAttackNumber;
+
+    public int CurrentShotgunBulletsCount => currentShotgunBulletsCount;
+    public int CurrentKnifeAttackNumber => currentKnifeAttackNumber;
 
     // 8 向枚举
     private static readonly Vector2Int[] EIGHT_DIRS = new Vector2Int[]
@@ -178,7 +179,7 @@ public class PlayerCombat : MonoBehaviour
 
                 ReduceKnifeAttackNumber(1);
 
-                AudioManager.Instance.PlaySFX(0, 0.5f, 1.5f);
+                AudioManager.Instance.PlaySFX(0, 0.5f, 1.2f);
             }
         }
     }
@@ -538,6 +539,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if (count <= 0)
             return;
+
+        AudioManager.Instance.PlaySFX(4, 0.2f, 1f);
 
         if (currentShotgunBulletsCount + count > shotgunBulletsCount)
         {

@@ -96,6 +96,20 @@ public class SpiderAI : MonoBehaviour, ITurnActor
             TurnManager.Instance.Unregister(this);
     }
 
+    //private bool b = false;
+
+    //private void Update()
+    //{
+    //    if (Vector2.Distance(transform.position, playerTransform.position) > 30 && b)
+    //    {
+    //        TurnManager.Instance.Unregister(this);
+    //    }
+    //    else if (Vector2.Distance(transform.position, playerTransform.position) <= 30 && !b) 
+    //    {
+    //        TurnManager.Instance.Register(this);
+    //    }
+    //}
+
     #region < 逻辑管理 >
     /// <summary>
     /// TurnManager 调用：执行本回合逻辑
@@ -110,7 +124,7 @@ public class SpiderAI : MonoBehaviour, ITurnActor
         {
             AttackPlayer(playerCollider);
 
-            AudioManager.Instance.PlayAnimalSFX(0, 0.3f, 3f);
+            AudioManager.Instance.PlayAnimalSFX(0, 0.5f, 3f);
             yield break;
         }
 
@@ -179,7 +193,7 @@ public class SpiderAI : MonoBehaviour, ITurnActor
     private void AttackPlayer(Collider2D playerCollider)
     {
         if(playerCollider == null) return;
-        playerCollider.gameObject.SendMessage("OnAttacked", SendMessageOptions.DontRequireReceiver);
+        playerCollider.gameObject.GetComponent<PlayerHealth>().TakeDamage(1);
     }
 
     private bool HasLineOfSightToPlayer()
